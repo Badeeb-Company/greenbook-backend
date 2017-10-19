@@ -1,57 +1,90 @@
-<%= form_with(model: shop, local: true) do |form| %>
-  <% if shop.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(shop.errors.count, "error") %> prohibited this shop from being saved:</h2>
+<%= form_for @shop, :html => { :class => "form-horizontal shop" } do |f| %>
 
-      <ul>
-      <% shop.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <% if @shop.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@shop.errors.count, "error") %> prohibited this shop from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @shop.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :shop_name %>
+  <div class="form-group">
+    <%= f.label :name, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :name, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:name) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :description, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :description, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:description) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :rate, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :rate, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:rate) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :lat, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :lat, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:lat) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :long, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :long, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:long) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :address, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :address, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:address) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :phone_number, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :phone_number, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:phone_number) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :main_photo_url, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :main_photo_url, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:main_photo_url) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :category_id, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :category_id, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:category_id) %>
   </div>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_field :description, id: :shop_description %>
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                shops_path, :class => 'btn btn-default' %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :rate %>
-    <%= form.text_field :rate, id: :shop_rate %>
-  </div>
-
-  <div class="field">
-    <%= form.label :lat %>
-    <%= form.text_field :lat, id: :shop_lat %>
-  </div>
-
-  <div class="field">
-    <%= form.label :long %>
-    <%= form.text_field :long, id: :shop_long %>
-  </div>
-
-  <div class="field">
-    <%= form.label :address %>
-    <%= form.text_field :address, id: :shop_address %>
-  </div>
-
-  <div class="field">
-    <%= form.label :phone_number %>
-    <%= form.text_field :phone_number, id: :shop_phone_number %>
-  </div>
-
-  <div class="field">
-    <%= form.label :main_photo_url %>
-    <%= form.text_field :main_photo_url, id: :shop_main_photo_url %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>
