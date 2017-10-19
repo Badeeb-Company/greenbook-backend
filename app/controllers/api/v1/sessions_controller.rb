@@ -1,9 +1,10 @@
 class Api::V1::SessionsController < Devise::SessionsController
-	# include Api::AuthenticationHelper
 	layout 'base'
+	include Api::V1::AuthenticationHelper
 
 	skip_before_action :verify_authenticity_token
 	skip_before_action :verify_signed_out_user
+	before_action :authenticate_api_user!, only: :destroy
 
 
 	def create
@@ -17,13 +18,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 	end
 
 	def destroy
-		current_user = find_user_by_token
-		if(!current_user.present?)
-			return unauthorized
-		end
-		respond_to do |format|
-			format.json { render json: {message: "logged out"}, status: :ok }
-		end
+		render 'api/v1/empty', status: :ok
 	end
 
 end

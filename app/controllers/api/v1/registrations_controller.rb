@@ -1,12 +1,13 @@
 class Api::V1::RegistrationsController < Devise::RegistrationsController
 	layout 'base'
+	include Api::V1::AuthenticationHelper
 
 	skip_before_action :authenticate_scope!
 	skip_before_action :verify_authenticity_token
-	# before_action :authenticate_api_user!, only: [:update, :edit]
+	before_action :authenticate_api_user!, only: [:update]
 
 	def create
-		@user = User.new(user_params)
+		@user = User.new(create_user_params)
 		if @user.save
 			render action: 'sign_up', status: :ok
 		else
@@ -17,7 +18,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
 	def update
 		@user = current_user
-		if @user.update(user_params)
+		if @user.update(update_user_params)
 			render action: 'update', status: :ok
 		else
 			@message = @user.errors
@@ -27,9 +28,15 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
 	private
 
-	def user_params
+	def create_user_params
 		params.require(:user).permit(:name,
 			:email,
+			:password,
+			:image_url)
+	end
+
+	def update_user_params
+		params.require(:user).permit(:name,
 			:password,
 			:image_url)
 	end

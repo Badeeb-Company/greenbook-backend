@@ -1,5 +1,5 @@
 class Api::V1::BaseController < ActionController::Base
-  # include Api::V1::AuthenticationHelper
+  include Api::V1::AuthenticationHelper
   respond_to :json
   layout 'base'
 
