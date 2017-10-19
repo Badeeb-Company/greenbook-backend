@@ -1,0 +1,57 @@
+<%= form_with(model: shop, local: true) do |form| %>
+  <% if shop.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(shop.errors.count, "error") %> prohibited this shop from being saved:</h2>
+
+      <ul>
+      <% shop.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :shop_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description, id: :shop_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :rate %>
+    <%= form.text_field :rate, id: :shop_rate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lat %>
+    <%= form.text_field :lat, id: :shop_lat %>
+  </div>
+
+  <div class="field">
+    <%= form.label :long %>
+    <%= form.text_field :long, id: :shop_long %>
+  </div>
+
+  <div class="field">
+    <%= form.label :address %>
+    <%= form.text_field :address, id: :shop_address %>
+  </div>
+
+  <div class="field">
+    <%= form.label :phone_number %>
+    <%= form.text_field :phone_number, id: :shop_phone_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :main_photo_url %>
+    <%= form.text_field :main_photo_url, id: :shop_main_photo_url %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
