@@ -7,6 +7,7 @@ class Shop < ApplicationRecord
 
 	def initialize(attributes={})
 		super
+		self.category = Category.first
 		self.working_days.append(
 			WorkingDay.new(day_name: 'Saturday', opened_at: 0, closed_at: 0, state: 'opened'),
 			WorkingDay.new(day_name: 'Sunday', opened_at: 0, closed_at: 0, state: 'opened'),

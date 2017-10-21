@@ -1,8 +1,4 @@
 class Api::V1::SessionsController < Devise::SessionsController
-	layout 'base'
-	include Api::V1::AuthenticationHelper
-
-	skip_before_action :verify_authenticity_token
 	skip_before_action :verify_signed_out_user
 	before_action :authenticate_api_user!, only: :destroy
 

@@ -40,8 +40,8 @@ Rails.application.configure do
     :port => '587',
     :domain => 'http://localhost',
     :authentication => :plain,
-    :user_name => 'mohammad.edeeb',
-    :password => 'Miido1989',
+    :user_name => 'badeeb',
+    :password => 'P@ssw0rd',
     :enable_starttls_auto => true
   }
 
