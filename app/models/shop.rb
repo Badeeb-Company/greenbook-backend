@@ -1,4 +1,6 @@
 class Shop < ApplicationRecord
+	validates :name, :description, :address, presence: true
+	
 	has_many :photos, class_name: 'ShopPhoto', dependent: :destroy, inverse_of: :shop
 	has_many :working_days, dependent: :destroy, inverse_of: :shop
 	belongs_to :category

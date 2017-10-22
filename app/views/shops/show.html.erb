@@ -21,7 +21,7 @@
   <dt><strong><%= model_class.human_attribute_name(:main_photo_url) %>:</strong></dt>
   <dd><%= @shop.main_photo_url %></dd>
   <dt><strong><%= model_class.human_attribute_name(:category_id) %>:</strong></dt>
-  <dd><%= @shop.category_id %></dd>
+  <dd><%= @shop.category.try(:name) %></dd>
 </dl>
 
 <%= link_to t('.back', :default => t("helpers.links.back")),
