@@ -35,16 +35,6 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  ActionMailer::Base.smtp_settings = {
-    :address => 'smtp.sendgrid.net',
-    :port => '587',
-    :domain => 'http://localhost',
-    :authentication => :plain,
-    :user_name => 'badeeb',
-    :password => 'P@ssw0rd',
-    :enable_starttls_auto => true
-  }
-
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
