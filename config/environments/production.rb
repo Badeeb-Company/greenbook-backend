@@ -69,6 +69,16 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  ActionMailer::Base.smtp_settings = {
+    :address => 'smtp.sendgrid.net',
+    :port => '587',
+    :domain => 'https://staging-greenbook.herokuapp.com',
+    :authentication => :plain,
+    :user_name => Rails.application.secrets.sendgrid_username,
+    :password => Rails.application.secrets.sendgrid_password,
+    :enable_starttls_auto => true
+  }
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
