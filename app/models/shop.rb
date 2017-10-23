@@ -5,6 +5,8 @@ class Shop < ApplicationRecord
 	has_many :working_days, dependent: :destroy, inverse_of: :shop
 	belongs_to :category
 
+	accepts_nested_attributes_for :photos, allow_destroy: true
+
 	acts_as_mappable :lat_column_name => :lat, :lng_column_name => :long
 
 	def initialize(attributes={})

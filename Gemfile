@@ -35,6 +35,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate-bootstrap'
 
+# For forms with nested models
+gem "cocoon"
+
 gem "twitter-bootstrap-rails"
 
 gem 'devise'
