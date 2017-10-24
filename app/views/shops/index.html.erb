@@ -41,6 +41,8 @@
   </tbody>
 </table>
 
+<%= will_paginate @shops, renderer: BootstrapPagination::Rails %>
+
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_shop_path,
             :class => 'btn btn-primary' %>

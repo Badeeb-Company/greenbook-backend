@@ -4,7 +4,7 @@ class ShopsController < ApplicationController
   # GET /shops
   # GET /shops.json
   def index
-    @shops = Shop.all
+    @shops = Shop.paginate(:page => params[:page], :per_page => 10).order("name ASC")
   end
 
   # GET /shops/1
