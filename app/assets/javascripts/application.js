@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require turbolinks
+//= require cocoon
 //= require rails.validations
 //= require locationpicker.jquery
 //= require_tree .

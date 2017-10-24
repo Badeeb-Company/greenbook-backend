@@ -1,0 +1,13 @@
+<div class="nested-fields col-lg-offset-2 row top-20">
+ 	<% if !f.object.new_record?  %>
+ 		<div class="col-lg-8">
+	 		<%= f.object.photo_url %>
+	 		<%= f.hidden_field :photo_url, class: 'old_photo_hidden_field' %>
+	 	</div>
+ 	<% else %>
+ 		<%= f.file_field :photo_file, class: "col-lg-8 photo_file_field", accept: 'image/png,image/jpeg' %>
+ 		<%= f.hidden_field :photo_url, class: 'new_photo_hidden_field' %>
+ 	<% end %>
+
+	<%= link_to_remove_association "remove", f, class: "col-lg-2 bottom-10" %>
+</div>

@@ -1,5 +1,7 @@
 
-<%= form_for @shop, :html => { class: "form-horizontal shop col-lg-7",  id: 'shop_form' }, 
+<div id="map" style="height: 400px;" class="bottom-20"></div>
+
+<%= form_for @shop, :html => { class: "form-horizontal shop",  id: 'shop_form' }, 
   validate: true do |f| %>
 
   <% if @shop.errors.any? %>
@@ -17,6 +19,10 @@
     </div>
   <% end %>
 
+  <div class="page-header">
+    <h3>Details</h3>
+  </div>
+
   <div class="form-group">
     <%= f.label :name, :class => 'control-label col-lg-2' %>
     <div class="col-lg-10">
@@ -31,6 +37,15 @@
       <%= f.text_area :description, :class => 'form-control' %>
     </div>
     <%=f.error_span(:description) %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :category_id, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.collection_select(:category_id, Category.all, :id, :name, {:selected => f.object.category_id}, {:class=>'form-control'}) %>
+
+    </div>
+    <%=f.error_span(:category_id) %>
   </div>
 
   <div class="form-group">
@@ -60,21 +75,25 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :photo, :class => 'control-label col-lg-2' %>
+    <%= f.label :photo, 'Main Photo', :class => 'control-label col-lg-2' %>
     <div class="col-lg-10">
-      <%= f.file_field :photo_file, id: 'file_field', accept: 'image/png,image/jpeg' %>
-      <%= f.hidden_field :main_photo_url, id: 'hidden_photo_field' %>
+      <%= f.file_field :photo_file, id: 'main_photo_file_field', accept: 'image/png,image/jpeg' %>
+      <%= f.hidden_field :main_photo_url, id: 'main_photo_hidden_field' %>
     </div>
     <%=f.error_span(:photo) %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :category_id, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
-      <%= f.collection_select(:category_id, Category.all, :id, :name, {:selected => f.object.category_id}, {:class=>'form-control'}) %>
+  <div class="page-header">
+    <h3>Other photos</h3>
+  </div>
 
+  <div class="form-group ">
+    <%= f.fields_for :photos do |photo| %>
+      <%= render 'photo_fields', f: photo %>
+    <% end %>
+    <div class="links col-lg-offset-2 col-lg-10 top-30">
+      <%= link_to_add_association 'Add New Photo', f, :photos, :class => 'btn btn-default' %>
     </div>
-    <%=f.error_span(:category_id) %>
   </div>
 
   <div class="form-group">
@@ -87,25 +106,9 @@
 
 <% end %>
 
-<div id="somecomponent" style="height: 400px;"></div>
-
-
-
-<style>
-     
-      #map {
-        height: 400px;
-        width: 100%;
-      }
-     p {margin-top: 20px;}
-     table, tr,th, td {
-      text-align:center;
-      vertical-align: middle;
-    }
-    </style>
 
 <script>
-  $('#somecomponent').locationpicker({
+  $('#map').locationpicker({
         location: {
             latitude: 46.15242437752303,
             longitude: 2.7470703125
@@ -127,57 +130,125 @@
       storageBucket: "waritex-promotions-firebase.appspot.com",
       messagingSenderId: "786576419400"
   };
-  
+
   if (!firebase.apps.length) {
     firebase.initializeApp(config);
   }
 
+  var form = $('#shop_form');
+  var newFilesCount = 0;
+  var totalFilesCount = 0;
+
   $('#submit_button').click(function(e){
     e.preventDefault();
 
-    var form = $('#shop_form');
-    var hiddenField = $('#hidden_photo_field');
-    var fileField = $('#file_field');
-    
-    // find all fields of the validated form
+    // find all fields of the validated form and trigger validation by bluring
     $('*[data-validate="true"]').blur();
-    
 
-    if(form.isValid(ClientSideValidations.validators)){
-      var files = fileField.prop('files');
-
-      if(files.length > 0){
-        var file = fileField.prop('files')[0];
-
-        var storageRef = firebase.storage().ref();
-        var fileRef = storageRef.child('shops/' + file.name);
-        var uploadTask = fileRef.put(file)
-        showPleaseWait();
-
-        uploadTask.on('state_changed', 
-          null,
-          function error(error) {
-            hidePleaseWait();
-            alert('Error occured while uploading files')
-          },
-          function complete() {
-            hidePleaseWait();
-            var downloadURL = uploadTask.snapshot.downloadURL;
-            hiddenField.val(downloadURL);
-            form.submit();
-          });
-        
-      } else {
-        if(hiddenField.val()) {
-         form.submit();
-        } else {
-         alert("Please select photo file");
-        }
-      }
-
+    if(!form.isValid(ClientSideValidations.validators)){
+      return;
     }
 
+    var mainPhotoHiddenField = $('#main_photo_hidden_field');
+    var mainPhotoFileField = $('#main_photo_file_field');
+
+    // check if user selected photo, or a previous photo was added in case of edit
+    if(!hasMainPhoto(mainPhotoFileField, mainPhotoHiddenField)){
+      alert("Please select shop main photo");
+      return;
+    }
+
+    var oldHiddenFields = $('.old_photo_hidden_field');
+    var newHiddenFields = $('.new_photo_hidden_field');
+
+    var fileFields = $('.photo_file_field');
+
+    newFilesCount = getNumberOfNewFiles(fileFields);
+
+    // A new file field without a photo selected, he needs either to remove it or add a photo
+    if(newFilesCount != fileFields.size()){
+      alert("Please add the missing photos");
+      return;
+    }
+
+    if(mainPhotoUploaded(mainPhotoFileField)){
+      totalFilesCount = newFilesCount + 1;
+    } else {
+      totalFilesCount = newFilesCount;
+    }
+
+    if(totalFilesCount == 0){
+      form.submit();
+      return;
+    }
+
+    showPleaseWait();
+
+    // upload new files
+    fileFields.each(function(index) {
+      var fileField = fileFields[index];
+      var hiddenField = newHiddenFields[index]
+
+      var files = fileField.files;
+
+      if(files.length > 0){
+        uploadFile(files[0], hiddenField);
+      }
+
+    });
+
+    if(mainPhotoUploaded(mainPhotoFileField)){
+      var files = mainPhotoFileField.prop('files');
+      uploadFile(files[0], mainPhotoHiddenField[0]);
+    }
+
+
   });
+
+  function hasMainPhoto(fileField, hiddenField){
+    return mainPhotoUploaded(fileField) || hiddenField.val();
+  }
+
+  function mainPhotoUploaded(fileField){
+    var files = fileField.prop('files');
+    return files.length > 0;
+  }
+
+  function getNumberOfNewFiles(fileFields){
+    var result = 0;
+    fileFields.each(function(index) {
+      var fileField = fileFields[index];
+      if(fileField.files.length > 0){
+        result ++;
+      }
+    });
+    return result;
+  }
+
+  function fileUploaded(){
+    totalFilesCount --;
+    if(totalFilesCount == 0){
+      hidePleaseWait();
+      form.submit();
+    }
+  }
+
+  function uploadFile(file, hiddenField){
+    var storageRef = firebase.storage().ref();
+    var fileRef = storageRef.child('shops/' + file.name);
+    var uploadTask = fileRef.put(file)
+
+    uploadTask.on('state_changed', 
+      null,
+      function error(error) {
+        alert('Error occured while uploading files');
+      },
+      function complete() {
+        var downloadURL = uploadTask.snapshot.downloadURL;
+        hiddenField.value = downloadURL;
+        fileUploaded();
+      });
+  }
 
 
 </script>
