@@ -25,14 +25,14 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 	private
 
 	def create_user_params
-		params.require(:user).permit(:name,
+		params.require(:data).require(:user).permit(:name,
 			:email,
 			:password,
 			:image_url)
 	end
 
 	def update_user_params
-		params.require(:user).permit(:name,
+		params.require(:data).require(:user).permit(:name,
 			:password,
 			:image_url)
 	end
