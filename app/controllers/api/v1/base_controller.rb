@@ -7,6 +7,11 @@ class Api::V1::BaseController < ActionController::Base
 
   private
 
+  def render_unprocessable(message)
+    @message = message
+    render 'api/v1/empty', status: :unprocessable_entity
+  end
+
   # def error_occurred(exception)
   #   @message = exception.message
   #   # Rails.logger.error("API ERROR: error => #{@message}, stack trace => #{exception.backtrace}")

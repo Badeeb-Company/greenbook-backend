@@ -104,14 +104,19 @@
     </div>
   </div>
 
-<% end %>
-
-
 <script>
+  var initialLat = 25.276987;
+  var initialLong = 55.296249;
+
+  <% if !f.object.new_record? %>
+    initialLat = <%=f.object.lat%>;
+    initialLong = <%=f.object.long%>;
+  <% end %>
+
   $('#map').locationpicker({
         location: {
-            latitude: 46.15242437752303,
-            longitude: 2.7470703125
+            latitude: initialLat,
+            longitude: initialLong
         },
         radius: 50,
         inputBinding: {
@@ -119,7 +124,10 @@
             longitudeInput: $('#us2-lon'),
             locationNameInput: $('#us2-address')
         },
-        enableAutocomplete: true
+        enableAutocomplete: true,
+        autocompleteOptions: {
+            componentRestrictions: {country: 'ae'}
+        }
     });
 
   var config = {
@@ -252,3 +260,5 @@
 
 
 </script>
+
+<% end %>
