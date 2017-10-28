@@ -14,7 +14,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 	end
 
 	def destroy
-		render 'api/v1/empty', status: :ok
+		render_empty_success
 	end
 
 end

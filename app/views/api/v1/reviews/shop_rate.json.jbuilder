@@ -1,0 +1,1 @@
+json.shop_rate @shop.rate

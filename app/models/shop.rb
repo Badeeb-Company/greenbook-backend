@@ -3,6 +3,7 @@ class Shop < ApplicationRecord
 
 	has_many :photos, class_name: 'ShopPhoto', dependent: :destroy, inverse_of: :shop
 	has_many :working_days, dependent: :destroy, inverse_of: :shop
+	has_many :reviews, dependent: :destroy
 	belongs_to :category
 
 	accepts_nested_attributes_for :photos, allow_destroy: true
