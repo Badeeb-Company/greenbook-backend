@@ -42,7 +42,8 @@
   <div class="form-group">
     <%= f.label :category_id, :class => 'control-label col-lg-2' %>
     <div class="col-lg-10">
-      <%= f.collection_select(:category_id, Category.all, :id, :name, {:selected => f.object.category_id}, {:class=>'form-control'}) %>
+      <%= f.collection_select(:category_id, Category.all, :id, :name, {:selected => f.object.category_id},
+       {:class=>'form-control'}) %>
 
     </div>
     <%=f.error_span(:category_id) %>
@@ -95,6 +96,14 @@
       <%= link_to_add_association 'Add New Photo', f, :photos, :class => 'btn btn-default' %>
     </div>
   </div>
+
+  <div class="page-header">
+    <h3>Working days</h3>
+  </div>
+
+  <%= f.fields_for :working_days do |day| %>
+    <%= render 'working_day_fields', f: day %>
+  <% end %>
 
   <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">

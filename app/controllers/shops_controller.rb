@@ -14,7 +14,7 @@ class ShopsController < ApplicationController
 
   # GET /shops/new
   def new
-    @shop = Shop.new
+    @shop = Shop.new_with_working_days
   end
 
   # GET /shops/1/edit
@@ -71,6 +71,7 @@ class ShopsController < ApplicationController
     def shop_params
       params.require(:shop).permit(:name, :description, :rate, :lat, :long, 
         :address, :phone_number, :main_photo_url, :category_id,
-        photos_attributes: [:id, :photo_url, :_destroy])
+        photos_attributes: [:id, :photo_url, :_destroy],
+        working_days_attributes: [:id, :day_name, :opened_at, :closed_at, :state])
     end
 end
