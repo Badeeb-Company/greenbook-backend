@@ -27,7 +27,7 @@ Devise.setup do |config|
   require 'devise/orm/active_record'
 
   # Configure the parent controller of devise to the base controller
-  config.parent_controller = 'Api::V1::BaseController'
+  # config.parent_controller = 'Api::V1::BaseController'
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is

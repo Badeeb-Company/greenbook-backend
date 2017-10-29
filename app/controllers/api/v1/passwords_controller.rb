@@ -1,7 +1,9 @@
 class Api::V1::PasswordsController < Devise::PasswordsController
-  # layout "application", only: [:edit]
+  include Api::V1::AuthenticationHelper
+  respond_to :json
+  layout 'base', only: :create
   
-  respond_to :html
+  skip_before_action :verify_authenticity_token
 
   def create
     self.resource = resource_class.send_reset_password_instructions(params['data'])

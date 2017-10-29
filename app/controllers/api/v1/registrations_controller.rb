@@ -1,4 +1,9 @@
 class Api::V1::RegistrationsController < Devise::RegistrationsController
+	include Api::V1::AuthenticationHelper
+  	respond_to :json
+  	layout 'base'
+
+	skip_before_action :verify_authenticity_token
 	skip_before_action :authenticate_scope!
 	before_action :authenticate_api_user!, only: [:update]
 

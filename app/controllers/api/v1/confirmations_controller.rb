@@ -1,7 +1,5 @@
 class Api::V1::ConfirmationsController < Devise::ConfirmationsController
 
-   respond_to :html
-
    def show
     self.resource = resource_class.confirm_by_token(params[:confirmation_token])
 

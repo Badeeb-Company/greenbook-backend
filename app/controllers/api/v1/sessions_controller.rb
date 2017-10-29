@@ -1,4 +1,9 @@
 class Api::V1::SessionsController < Devise::SessionsController
+	include Api::V1::AuthenticationHelper
+	respond_to :json
+    layout 'base'
+	
+	skip_before_action :verify_authenticity_token
 	skip_before_action :verify_signed_out_user
 	before_action :authenticate_api_user!, only: :destroy
 
@@ -14,7 +19,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 	end
 
 	def destroy
-		render_empty_success
+		render 'api/v1/empty', status: :ok
 	end
 
 end
