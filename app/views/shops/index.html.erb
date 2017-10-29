@@ -20,9 +20,9 @@
       <tr>
         <td><%= link_to shop.id, shop_path(shop) %></td>
         <td><%= shop.name %></td>
-        <td><%= shop.description %></td>
+        <td><%= truncate(shop.description) %></td>
         <td><%= shop.rate %></td>
-        <td><%= shop.address %></td>
+        <td><%= truncate(shop.address) %></td>
         <td><%= shop.phone_number %></td>
         <td><%= shop.category.name %></td>
         <td>
