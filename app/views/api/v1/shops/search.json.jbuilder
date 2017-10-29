@@ -14,6 +14,6 @@ json.shops @shops do |shop|
 	json.working_days shop.working_days do |working_day|
 		json.extract! working_day, :day_name, :state
 		json.opened_at working_day.opened_at.strftime("%I:%M %p")
-		json.closed_at working_day.opened_at.strftime("%I:%M %p")
+		json.closed_at working_day.closed_at.strftime("%I:%M %p")
 	end
 end
