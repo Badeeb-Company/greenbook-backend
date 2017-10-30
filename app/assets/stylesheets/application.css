@@ -39,6 +39,14 @@
 	display: inline-block;
 }
 
+.form-static-value{
+	padding-top: 7px;
+}
+
+.navbar-brand{
+	color: #168954 !important;
+}
+
 textarea {
 	resize: none;
 }

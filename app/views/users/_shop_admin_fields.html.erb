@@ -1,0 +1,7 @@
+<div class="form-group nested-fields">
+	<div class="col-lg-offset-2 col-lg-6">
+		<%= f.collection_select(:shop_id, Shop.all, :id, :name, {:selected => f.object.shop_id},
+       		{:class=>'form-control'}) %>
+	</div>
+	<%= link_to_remove_association "Delete", f, class: "btn btn-danger" %>
+</div>

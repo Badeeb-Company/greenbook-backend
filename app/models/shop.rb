@@ -5,6 +5,8 @@ class Shop < ApplicationRecord
 	has_many :working_days, dependent: :destroy, inverse_of: :shop
 	has_many :reviews, dependent: :destroy
 	belongs_to :category
+	has_many :shop_admins
+	has_many :admins, through: :shop_admins, class_name: 'User'
 
 	accepts_nested_attributes_for :photos, allow_destroy: true
 	accepts_nested_attributes_for :working_days

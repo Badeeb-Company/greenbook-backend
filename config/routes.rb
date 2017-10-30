@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
 
+  # get 'users/index'
+  resources :users, only: [:index] do
+  	member do
+  		get 'manage_shops'
+  		patch 'update_shops'
+  	end
+  end
+
   devise_for :admins
 	root 'shops#index'
 
