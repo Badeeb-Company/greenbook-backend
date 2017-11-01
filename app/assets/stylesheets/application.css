@@ -34,6 +34,15 @@
 .bottom-25 { margin-bottom: 25px; }
 .bottom-30 { margin-bottom: 30px; }
 
+.thumb{
+	height: 500px !important;
+}
+
+.logo{
+	width: auto;
+	height: 80px !important;
+}
+
 .width-auto{
 	width: auto;
 	display: inline-block;
