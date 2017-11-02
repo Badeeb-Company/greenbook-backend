@@ -29,6 +29,11 @@ Rails.application.routes.draw do
 			resources :shops , only: [] do
 				collection do
 					get 'search'
+					get 'favourites'
+				end
+				member do
+					post 'favourite', to: 'shops#add_favourite'
+					delete 'favourite', to: 'shops#remove_favourite'
 				end
 				resources :reviews, except: [:show, :edit, :new] do
 					member do

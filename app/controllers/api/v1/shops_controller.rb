@@ -1,4 +1,6 @@
 class Api::V1::ShopsController < Api::V1::BaseController
+	before_action :authenticate_api_user!, except: [:search]
+	before_action :set_shop!, only: [:add_favourite, :remove_favourite]
 
 	def search
 		@shops = Shop.all.order("name asc")
@@ -13,8 +15,38 @@ class Api::V1::ShopsController < Api::V1::BaseController
 		# 	.order("name asc")
 	end
 
+	def add_favourite
+		shop_favourite = ShopFavourite.new(shop: @shop, user: current_user)
+		if shop_favourite.save
+			render_empty_success
+		else
+			render_unprocessable(shop_favourite.errors)
+		end
+	end
+
+	def remove_favourite
+		shop_favourite = current_user.shop_favourites.find_by_shop_id(@shop.id)
+		if shop_favourite
+			shop_favourite.destroy
+			render_empty_success
+		else
+			render_unprocessable('This shop is not in user favourites')
+		end
+	end
+
+	def favourites
+		@favourites = current_user.favourites
+	end
+
 
 	private
+
+	def set_shop!
+		@shop = Shop.find_by_id(params[:id])
+		if !@shop.present?
+			render_unprocessable('Shop not found')
+		end
+	end
 
 	def valid_location?(lat, lng)
 		lat && lng && (-90..90).include?(lat.to_f) && (-180..180).include?(lng.to_f)
