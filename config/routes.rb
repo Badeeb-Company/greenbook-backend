@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
 			get 'categories', to: 'categories#index'
 
-			resources :shops , only: [] do
+			resources :shops , only: [:index] do
 				collection do
 					get 'search'
 					get 'favourites'

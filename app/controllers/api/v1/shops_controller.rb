@@ -1,5 +1,5 @@
 class Api::V1::ShopsController < Api::V1::BaseController
-	before_action :authenticate_api_user!, except: [:search]
+	before_action :authenticate_api_user!, except: [:search, :index]
 	before_action :set_shop!, only: [:add_favourite, :remove_favourite]
 
 	def search
@@ -13,6 +13,19 @@ class Api::V1::ShopsController < Api::V1::BaseController
 		# @shops = Shop.within(5, :origin => [lat, lng])
 		# 	.where(category_id: category_id)
 		# 	.order("name asc")
+	end
+
+	def index
+		@shops = nil
+		if params[:ids]
+			ids = []
+			params[:ids].split(',').each do |id|
+				ids << id.strip.to_i
+			end
+			@shops = Shop.where(id: ids)
+		else
+			@shops = Shop.all
+		end
 	end
 
 	def add_favourite

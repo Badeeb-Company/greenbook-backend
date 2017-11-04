@@ -19,6 +19,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
 	def update
 		@user = current_user
+		puts update_user_params[:password]
 		if @user.update(update_user_params)
 			render action: 'update', status: :ok
 		else
