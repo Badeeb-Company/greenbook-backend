@@ -12,7 +12,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 		if @user.save
 			render action: 'sign_up', status: :ok
 		else
-			@message = @user.errors
+			@message = @user.errors.full_messages[0]
 			render 'api/v1/empty', status: :unprocessable_entity
 		end
 	end
@@ -23,7 +23,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 		if @user.update(update_user_params)
 			render action: 'update', status: :ok
 		else
-			@message = @user.errors
+			@message = @user.errors.full_messages[0]
 			render 'api/v1/empty', status: :unprocessable_entity
 		end
 	end

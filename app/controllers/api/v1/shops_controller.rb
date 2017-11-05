@@ -33,7 +33,7 @@ class Api::V1::ShopsController < Api::V1::BaseController
 		if shop_favourite.save
 			render_empty_success
 		else
-			render_unprocessable(shop_favourite.errors)
+			render_unprocessable(shop_favourite.errors.full_messages[0])
 		end
 	end
 

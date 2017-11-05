@@ -11,7 +11,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
 		puts @shop.rate
 		@review = Review.new(review_params.merge(user: current_user, shop: @shop))
 		if !@review.save
-			render_unprocessable(@review.errors)
+			render_unprocessable(@review.errors.full_messages[0])
 		end
 	end
 
@@ -27,7 +27,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
 		if @review.update(review_params)
 			render 'shop_rate', status: :ok
 		else
-			render_unprocessable(@review.errors)
+			render_unprocessable(@review.errors.full_messages[0])
 		end
 	end
 
@@ -38,7 +38,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
 		if @review.save
 			render_empty_success
 		else
-			render_unprocessable(@review.errors)
+			render_unprocessable(@review.errors.full_messages[0])
 		end
 	end
 

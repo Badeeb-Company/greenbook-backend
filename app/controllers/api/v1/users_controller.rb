@@ -21,7 +21,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 		if @user.save
 			render 'api/v1/registrations/sign_up', status: :ok
 		else
-			@message = @user.errors
+			@message = @user.errors.full_messages[0]
 			render 'api/v1/empty', status: :unprocessable_entity
 		end
 	end
