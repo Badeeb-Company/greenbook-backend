@@ -16,13 +16,15 @@ Rails.application.routes.draw do
 
 	namespace :api do
 		namespace :v1 do
-			
+
 			devise_for :users, controllers: {
 				sessions: "api/v1/sessions",
 				registrations: "api/v1/registrations",
 				passwords: "api/v1/passwords",
 				confirmations: "api/v1/confirmations"
 			}
+
+			post 'users/social_login'
 
 			get 'categories', to: 'categories#index'
 
