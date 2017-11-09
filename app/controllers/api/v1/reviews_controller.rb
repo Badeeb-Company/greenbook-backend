@@ -8,7 +8,6 @@ class Api::V1::ReviewsController < Api::V1::BaseController
 	end
 
 	def create
-		puts @shop.rate
 		@review = Review.new(review_params.merge(user: current_user, shop: @shop))
 		if !@review.save
 			render_unprocessable(@review.errors.full_messages[0])

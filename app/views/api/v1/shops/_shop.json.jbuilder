@@ -1,4 +1,5 @@
 json.extract! shop, :id, :name, :description, :rate, :phone_number, :main_photo_url
+json.num_of_reviews shop.reviews.size
 json.location do
 	json.extract! shop, :long, :lat, :address
 end
