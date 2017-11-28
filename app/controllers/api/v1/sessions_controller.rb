@@ -11,7 +11,12 @@ class Api::V1::SessionsController < Devise::SessionsController
 	def create
 		@user = User.find_for_database_authentication(:email => params[:data][:email])
 		if @user.present? and @user.valid_password?(params[:data][:password])
-			render action: 'sign_in', status: :ok
+			if @user.confirmed?
+				render action: 'sign_in', status: :ok
+			else
+				@message = 'Your email needs to be confirmed, check your mail'
+				render 'api/v1/empty', status: :unauthorized
+			end
 		else
 			@message = 'Login failed, invalid email or password'
 			render 'api/v1/empty', status: :unauthorized
