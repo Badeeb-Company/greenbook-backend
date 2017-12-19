@@ -10,8 +10,7 @@ class Api::V1::ShopsController < Api::V1::BaseController
 		if !valid_location?(lat, lng)
 			render_unprocessable('Invalid location') and return
 		end
-		@shops = Shop.within(5, :origin => [lat, lng])
-			.where(category_id: category_id)
+		@shops = Shop.where(category_id: category_id)
 			.order("name asc")
 	end
 
