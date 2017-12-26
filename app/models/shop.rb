@@ -20,7 +20,7 @@ class Shop < ApplicationRecord
 	def self.initialize_from_place(place)
 		main_photo_url = place.icon
 		if(place.photos[0])
-			main_photo_url = place.photos[0].fetch_url(400)
+			main_photo_url = place.photos[0].fetch_url(800)
 		end
 		shop = Shop.new(lat: place.lat, long: place.lng, google_place_id: place.place_id,
 			name: place.name, address: place.vicinity,
