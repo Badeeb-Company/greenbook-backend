@@ -1,5 +1,6 @@
 class Shop < ApplicationRecord
-	validates :name, :description, presence: true
+	
+	validates :name, presence: true
 
 	has_many :photos, class_name: 'ShopPhoto', dependent: :destroy, inverse_of: :shop
 	has_many :working_days, dependent: :destroy, inverse_of: :shop
@@ -15,6 +16,11 @@ class Shop < ApplicationRecord
 	accepts_nested_attributes_for :working_days
 
 	acts_as_mappable :lat_column_name => :lat, :lng_column_name => :long
+
+	def self.initialize_from_place(place)
+		shop = Shop.new(lat: place.lat, long: place.lng, google_place_id: place.place_id,
+			name: place.name, address: place.vicinity, main_photo_url: place.icon)
+	end
 
 	def self.new_with_working_days
 		default_opened_at = Time.utc(2000, 10, 31, 9, 0)

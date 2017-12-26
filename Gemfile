@@ -51,6 +51,8 @@ gem 'geokit-rails'
 # mail server
 gem 'sendgrid'
 
+gem 'google_places'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

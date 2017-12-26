@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171105160318) do
+ActiveRecord::Schema.define(version: 20171226225656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,7 +73,6 @@ ActiveRecord::Schema.define(version: 20171105160318) do
 
   create_table "shops", force: :cascade do |t|
     t.string "name"
-    t.string "description"
     t.float "rate"
     t.float "lat"
     t.float "long"
@@ -83,6 +82,7 @@ ActiveRecord::Schema.define(version: 20171105160318) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "category_id"
+    t.string "google_place_id"
     t.index ["category_id"], name: "index_shops_on_category_id"
   end
 

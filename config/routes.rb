@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 				collection do
 					get 'search'
 					get 'favourites'
+					get 'places'
 				end
 				member do
 					post 'favourite', to: 'shops#add_favourite'

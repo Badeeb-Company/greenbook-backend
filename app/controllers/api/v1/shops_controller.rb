@@ -1,18 +1,35 @@
 class Api::V1::ShopsController < Api::V1::BaseController
-	before_action :authenticate_api_user!, except: [:search, :index]
+	before_action :authenticate_api_user!, except: [:search, :index, :places]
 	before_action :set_shop!, only: [:add_favourite, :remove_favourite]
 
 	def search
-		@shops = Shop.all.order("name asc")
-		category_id = params[:category_id]
 		lat = params[:lat]
 		lng = params[:lng]
+		query = params[:query]
+
 		if !valid_location?(lat, lng)
 			render_unprocessable('Invalid location') and return
 		end
-		@shops = Shop.where(category_id: category_id)
-			.order("name asc")
+
+		if !query
+			query = 'restaurant'
+		end
+
+		google_result = GooglePlacesApi.search_places(lat, lng, query)
+		@shops = []
+		google_result.each do |place|
+			shop = Shop.find_by_google_place_id(place.place_id)
+			if !shop
+				shop = Shop.initialize_from_place(place)
+			end
+			@shops << shop
+		end
 	end
+
+	def places
+	    @client = GooglePlaces::Client.new('AIzaSyDw6Lr27FzIZX5vqLvIyt_XqxqtI6bb3ZE')
+	    @places = @client.spots(-33.8670522, 151.1957362)
+ 	end
 
 	def index
 		@shops = nil
