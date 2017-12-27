@@ -35,13 +35,23 @@ class Api::V1::ShopsController < Api::V1::BaseController
  	end
 
 	def index
-		@shops = nil
+		@shops = []
 		if params[:ids]
 			ids = []
 			params[:ids].split(',').each do |id|
-				ids << id.strip.to_i
+				# ids << id.strip.to_i
+				shop = Shop.find_by_google_place_id(id)
+				if shop
+					@shops << shop
+				else
+					place = GooglePlacesApi.get_place_detail(id)
+					if place
+						shop = Shop.initialize_from_place(place)
+						@shops << shop
+					end
+				end
 			end
-			@shops = Shop.where(google_place_id: ids)
+			# @shops = Shop.where(google_place_id: ids)
 		else
 			@shops = Shop.all
 		end
