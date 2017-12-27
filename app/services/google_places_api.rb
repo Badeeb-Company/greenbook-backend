@@ -12,7 +12,11 @@ class GooglePlacesApi
 	end
 
 	def self.get_place_detail(place_id)
-		api_client.spot(place_id)
+		begin
+			api_client.spot(place_id)
+		rescue HTTParty::ResponseError
+			nil
+		end
 	end
 
 end

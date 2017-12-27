@@ -1,5 +1,5 @@
 class Api::V1::ShopsController < Api::V1::BaseController
-	before_action :authenticate_api_user!, except: [:search, :index, :places]
+	before_action :authenticate_api_user!, except: [:search, :index, :places, :show]
 	before_action :set_shop!, only: [:add_favourite, :remove_favourite, :show]
 
 	def search
@@ -70,13 +70,24 @@ class Api::V1::ShopsController < Api::V1::BaseController
 		@favourites = current_user.favourites
 	end
 
-
 	private
 
 	def set_shop!
-		@shop = Shop.find_by_id(params[:id])
+		google_place_id = params[:id]
+		@shop = Shop.find_by_google_place_id(google_place_id)
 		if !@shop.present?
-			render_unprocessable('Shop not found')
+			place = GooglePlacesApi.get_place_detail(google_place_id)
+			if !place
+				render_unprocessable('Shop not found') and return
+			end
+			@shop = Shop.initialize_from_place(place)
+			@shop.phone_number = place.formatted_phone_number
+			if place.photos
+				for i in 0...[3, place.photos.size].min
+					@shop.photos.append(ShopPhoto.new(photo_url: place.photos[i].fetch_url(400)))
+				end
+			end
+			@shop.save
 		end
 	end
 
