@@ -41,7 +41,7 @@ class Api::V1::ShopsController < Api::V1::BaseController
 			params[:ids].split(',').each do |id|
 				ids << id.strip.to_i
 			end
-			@shops = Shop.where(id: ids)
+			@shops = Shop.where(google_place_id: ids)
 		else
 			@shops = Shop.all
 		end
@@ -74,20 +74,9 @@ class Api::V1::ShopsController < Api::V1::BaseController
 
 	def set_shop!
 		google_place_id = params[:id]
-		@shop = Shop.find_by_google_place_id(google_place_id)
-		if !@shop.present?
-			place = GooglePlacesApi.get_place_detail(google_place_id)
-			if !place
-				render_unprocessable('Shop not found') and return
-			end
-			@shop = Shop.initialize_from_place(place)
-			@shop.phone_number = place.formatted_phone_number
-			if place.photos
-				for i in 0...[3, place.photos.size].min
-					@shop.photos.append(ShopPhoto.new(photo_url: place.photos[i].fetch_url(400)))
-				end
-			end
-			@shop.save
+		@shop = Shop.find_or_create_by_place_id(google_place_id)
+		if !@shop
+			render_unprocessable('Shop not found')
 		end
 	end
 
