@@ -1,6 +1,6 @@
 class Api::V1::ShopsController < Api::V1::BaseController
 	before_action :authenticate_api_user!, except: [:search, :index, :places]
-	before_action :set_shop!, only: [:add_favourite, :remove_favourite]
+	before_action :set_shop!, only: [:add_favourite, :remove_favourite, :show]
 
 	def search
 		lat = params[:lat]
@@ -24,6 +24,9 @@ class Api::V1::ShopsController < Api::V1::BaseController
 			end
 			@shops << shop
 		end
+	end
+
+	def show
 	end
 
 	def places
