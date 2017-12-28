@@ -1,4 +1,4 @@
-json.extract! @shop, :id, :name, :rate, :phone_number, :main_photo_url
+json.extract! @shop, :id, :name, :rate, :google_place_id, :phone_number, :main_photo_url
 json.num_of_reviews @shop.reviews.size
 json.location do
 	json.extract! @shop, :long, :lat, :address
