@@ -32,24 +32,6 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :description, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
-      <%= f.text_area :description, :class => 'form-control' %>
-    </div>
-    <%=f.error_span(:description) %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :category_id, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
-      <%= f.collection_select(:category_id, Category.all, :id, :name, {:selected => f.object.category_id},
-       {:class=>'form-control'}) %>
-
-    </div>
-    <%=f.error_span(:category_id) %>
-  </div>
-
-  <div class="form-group">
     <%= f.label 'Lat/Long', :class => 'control-label col-lg-2' %>
     <div class="col-lg-4">
       <%= f.text_field :lat, :class => 'form-control', id: 'us2-lat', readonly: true %>

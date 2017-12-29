@@ -7,11 +7,9 @@
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:description) %></th>
       <th><%= model_class.human_attribute_name(:rate) %></th>
       <th><%= model_class.human_attribute_name(:address) %></th>
       <th><%= model_class.human_attribute_name(:phone_number) %></th>
-      <th><%= model_class.human_attribute_name(:category_id) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -20,11 +18,9 @@
       <tr>
         <td><%= link_to shop.id, shop_path(shop) %></td>
         <td><%= shop.name %></td>
-        <td><%= truncate(shop.description) %></td>
         <td><%= shop.rate %></td>
         <td><%= truncate(shop.address) %></td>
         <td><%= shop.phone_number %></td>
-        <td><%= shop.category.name %></td>
         <td>
           <%= link_to t('.show', :default => t("helpers.links.show")),
                       shop_path(shop), :class => 'btn btn-default btn-xs' %>
