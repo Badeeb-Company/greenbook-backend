@@ -22,6 +22,7 @@ class Api::V1::ShopsController < Api::V1::BaseController
 			if !shop
 				shop = Shop.initialize_from_place(place)
 			end
+			shop.adjust_open_now(place)
 			@shops << shop
 		end
 	end
@@ -29,12 +30,7 @@ class Api::V1::ShopsController < Api::V1::BaseController
 	def show
 	end
 
-	def places
-	    @client = GooglePlaces::Client.new('AIzaSyDw6Lr27FzIZX5vqLvIyt_XqxqtI6bb3ZE')
-	    @places = @client.spots(-33.8670522, 151.1957362)
- 	end
-
-	def index
+	def index_old
 		@shops = []
 		if params[:ids]
 			ids = []
@@ -47,6 +43,31 @@ class Api::V1::ShopsController < Api::V1::BaseController
 					place = GooglePlacesApi.get_place_detail(id)
 					if place
 						shop = Shop.initialize_from_place(place)
+						@shops << shop
+					end
+				end
+			end
+			# @shops = Shop.where(google_place_id: ids)
+		else
+			@shops = Shop.all
+		end
+	end
+
+	def index
+		@shops = []
+		if params[:ids]
+			ids = []
+			params[:ids].split(',').each do |id|
+				# ids << id.strip.to_i
+				shop = Shop.find_by_google_place_id(id)
+				place = GooglePlacesApi.get_place_detail(id)
+				if shop
+					shop.adjust_open_now(place)
+					@shops << shop
+				else
+					if place
+						shop = Shop.initialize_from_place(place)
+						shop.adjust_open_now(place)
 						@shops << shop
 					end
 				end
@@ -78,6 +99,10 @@ class Api::V1::ShopsController < Api::V1::BaseController
 
 	def favourites
 		@favourites = current_user.favourites
+		@favourites.each do |fav|
+			place = GooglePlacesApi.get_place_detail(fav.google_place_id)
+			fav.adjust_open_now(place)
+		end
 	end
 
 	private

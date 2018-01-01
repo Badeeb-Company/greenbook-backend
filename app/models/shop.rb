@@ -1,4 +1,6 @@
 class Shop < ApplicationRecord
+
+	attr_accessor :open_now
 	
 	validates :name, presence: true
 
@@ -17,7 +19,13 @@ class Shop < ApplicationRecord
 
 	acts_as_mappable :lat_column_name => :lat, :lng_column_name => :long
 
-	def self.find_or_create_by_place_id(google_place_id)
+	def adjust_open_now(place)
+		if place && place.opening_hours
+			self.open_now = place.opening_hours['open_now']
+		end
+	end
+
+	def self.find_or_create_by_place_id_2(google_place_id)
 		shop = find_by_google_place_id(google_place_id)
 		if !shop
 			place = GooglePlacesApi.get_place_detail(google_place_id)
@@ -32,6 +40,25 @@ class Shop < ApplicationRecord
 			end
 			shop.save
 		end
+		return shop
+	end
+
+	def self.find_or_create_by_place_id(google_place_id)
+		shop = find_by_google_place_id(google_place_id)
+		place = GooglePlacesApi.get_place_detail(google_place_id)
+		if !shop
+			if !place
+				return nil
+			end
+			shop = initialize_from_place(place)
+			if place.photos
+				for i in 0...[3, place.photos.size].min
+					shop.photos.append(ShopPhoto.new(photo_url: place.photos[i].fetch_url(400)))
+				end
+			end
+			shop.save
+		end
+		shop.adjust_open_now(place)
 		return shop
 	end
 
