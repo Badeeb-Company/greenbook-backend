@@ -72,6 +72,6 @@ class ShopsController < ApplicationController
       params.require(:shop).permit(:name, :rate, :lat, :long, 
         :address, :phone_number, :main_photo_url,
         photos_attributes: [:id, :photo_url, :_destroy],
-        working_days_attributes: [:id, :day_name, :opened_at, :closed_at, :state])
+        working_days_attributes: [:id, :day_name, :opening_hours])
     end
 end

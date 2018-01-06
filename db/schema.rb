@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171226225656) do
+ActiveRecord::Schema.define(version: 20180106192240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,12 +111,10 @@ ActiveRecord::Schema.define(version: 20171226225656) do
 
   create_table "working_days", force: :cascade do |t|
     t.string "day_name"
-    t.string "state"
     t.bigint "shop_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.time "opened_at"
-    t.time "closed_at"
+    t.string "opening_hours"
     t.index ["shop_id"], name: "index_working_days_on_shop_id"
   end
 

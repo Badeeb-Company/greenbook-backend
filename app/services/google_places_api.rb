@@ -8,7 +8,8 @@ class GooglePlacesApi
 		api_client.spots(lat, lng,
 			:types => ['bakery', 'bar', 'cafe', 'church', 'meal_delivery', 'meal_takeaway', 'night_club', 'restaurant', 'shopping_mall', 'hair_care', 'food', 'grocery_or_supermarket'],
 			:name => query,
-			:radius => 5000)
+			:radius => 5000,
+			:rankby => :distance)
 	end
 
 	def self.get_place_detail(place_id)
