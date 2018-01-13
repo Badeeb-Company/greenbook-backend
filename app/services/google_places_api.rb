@@ -6,7 +6,7 @@ class GooglePlacesApi
 
 	def self.search_places(lat, lng, query)
 		api_client.spots(lat, lng,
-			:types => ['bakery', 'bar', 'cafe', 'church', 'meal_delivery', 'meal_takeaway', 'night_club', 'restaurant', 'shopping_mall', 'hair_care'],
+			:exclude => ['casino'],
 			:name => query,
 			:radius => 5000,
 			:rankby => :distance)
