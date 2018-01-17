@@ -58,7 +58,7 @@ class Shop < ApplicationRecord
 		end
 		shop = Shop.new(lat: place.lat, long: place.lng, google_place_id: place.place_id,
 			name: place.name, address: place.vicinity, phone_number: place.formatted_phone_number,
-			main_photo_url: main_photo_url)
+			main_photo_url: main_photo_url, website: place.website)
 		add_default_working_days(shop)
 		shop
 	end
