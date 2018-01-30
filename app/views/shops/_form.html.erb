@@ -116,18 +116,15 @@
             locationNameInput: $('#us2-address')
         },
         enableAutocomplete: true
-        // autocompleteOptions: {
-        //     componentRestrictions: {country: 'ae'}
-        // }
     });
 
   var config = {
-    apiKey: "AIzaSyAmgGvQwI8iAgdst9um30Gg7EdB5K9UNTs",
-    authDomain: "greenbook-e6f97.firebaseapp.com",
-    databaseURL: "https://greenbook-e6f97.firebaseio.com",
-    projectId: "greenbook-e6f97",
-    storageBucket: "greenbook-e6f97.appspot.com",
-    messagingSenderId: "226726728640"
+    apiKey: "<%=Rails.application.secrets.fb_apiKey%>",
+    authDomain: "<%=Rails.application.secrets.fb_authDomain%>",
+    databaseURL: "<%=Rails.application.secrets.fb_databaseURL%>",
+    projectId: "<%=Rails.application.secrets.fb_projectId%>",
+    storageBucket: "<%=Rails.application.secrets.fb_storageBucket%>",
+    messagingSenderId: "<%=Rails.application.secrets.fb_messagingSenderId%>"
   };
 
 

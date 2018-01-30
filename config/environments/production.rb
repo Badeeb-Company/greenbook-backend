@@ -60,7 +60,7 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "greenbook-backend_#{Rails.env}"
-  config.action_mailer.default_url_options = { host: 'staging-greenbook.herokuapp.com', port: 80 }
+  config.action_mailer.default_url_options = { host: "#{Rails.application.secrets.mailer_host}", port: 80 }
 
   config.action_mailer.delivery_method = :smtp
 
@@ -72,7 +72,7 @@ Rails.application.configure do
   ActionMailer::Base.smtp_settings = {
     :address => 'smtp.sendgrid.net',
     :port => '587',
-    :domain => 'https://staging-greenbook.herokuapp.com',
+    :domain => "https://#{Rails.application.secrets.mailer_host}",
     :authentication => :plain,
     :user_name => Rails.application.secrets.sendgrid_username,
     :password => Rails.application.secrets.sendgrid_password,

@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   devise_for :admins
 	root 'shops#index'
 
+  get 'privacy', to: 'static#privacy'
+
   resources :shops
 	resources :categories
 

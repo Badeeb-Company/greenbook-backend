@@ -7,7 +7,7 @@ class Api::V1::ConfirmationsController < Devise::ConfirmationsController
       set_flash_message!(:notice, :confirmed)
       render 'api/v1/confirmations/confirm'
     else
-      respond_with_navigational(resource.errors, status: :unprocessable_entity){ render :new }
+      render 'api/v1/confirmations/confirm'
     end
   end
 
