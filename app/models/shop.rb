@@ -45,7 +45,7 @@ class Shop < ApplicationRecord
 
 	def self.save_photos_from_place(shop, place)
 		if place.photos
-			for i in 0...[3, place.photos.size].min
+			for i in 0...place.photos.size
 				shop.photos.append(ShopPhoto.new(photo_url: place.photos[i].fetch_url(400)))
 			end
 		end
