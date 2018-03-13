@@ -26,6 +26,9 @@ class Api::V1::UsersController < Api::V1::BaseController
 		end
 	end
 
+	def password_changed
+	end
+
 	private
 
 	def social_login_params

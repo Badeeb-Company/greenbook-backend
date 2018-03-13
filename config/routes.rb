@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 			}
 
 			post 'users/social_login'
+			get 'users/password_changed'
 
 			get 'categories', to: 'categories#index'
 
